@@ -1,5 +1,5 @@
 {
-  "name": "project-name",
+  "name": "fetch-hooks-react",
   "version": "0.0.0",
   "description": "project desc",
   "main": "build/index.js",
@@ -17,9 +17,9 @@
     "@types/react-dom": "16.9.8",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
-    "eslint": "^7.0.0",
+    "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.11.0",
-    "eslint-config-react-app": "^5.2.1",
+    "eslint-plugin-react": "^7.20.0",
     "eslint-plugin-react-hooks": "^4.0.0",
     "husky": "^4.2.5",
     "jest": "^25.5.1",
@@ -31,10 +31,10 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "format": "prettier --write \"src/**/*.{js,ts}\"",
-    "lint": "eslint --ext .js,.ts src/",
-    "lint-fix": "eslint --fix --ext .js,.ts src/",
-    "build": "tsc -p tsconfig.json",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css}\"",
+    "lint": "eslint --ext .jsx,.js,.tsx,.ts src/",
+    "lint-fix": "eslint --fix --ext .jsx,.js,.tsx,.ts src/",
+    "build": "rm -rf build && tsc -p tsconfig.json",
     "start": "node dist/index.js",
     "test": "jest --testTimeout=10000",
     "test-watch": "jest --watch",
