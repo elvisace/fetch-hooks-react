@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 import { useState, useEffect } from "react";
-export var FetchMany = function (params) {
+export var fetchMany = function (params) {
     var _this = this;
     var urls = params.map(function (_a) {
         var url = _a.url;
@@ -109,7 +109,7 @@ export var FetchMany = function (params) {
     }, [urls]);
     return { data: data, isLoading: isLoading, error: error };
 };
-export var FetchSingle = function (url, options) {
+export var fetchSingle = function (url, options) {
     var _this = this;
     var _a = useState(false), isLoading = _a[0], setIsLoading = _a[1];
     var _b = useState(), data = _b[0], setData = _b[1];

@@ -3,12 +3,12 @@ interface IFetchParams {
     options?: RequestInit;
     key: string;
 }
-export declare const FetchMany: <T>(params: IFetchParams[]) => {
+export declare const fetchMany: <T>(params: IFetchParams[]) => {
     data: T | undefined;
     isLoading: boolean;
     error: any;
 };
-export declare const FetchSingle: <T>(url: RequestInfo, options?: RequestInit | undefined) => {
+export declare const fetchSingle: <T>(url: RequestInfo, options?: RequestInit | undefined) => {
     data: T | undefined;
     isLoading: boolean;
     error: any;

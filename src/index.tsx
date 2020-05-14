@@ -6,7 +6,7 @@ interface IFetchParams {
   key: string;
 }
 
-export const FetchMany = function <T>(params: IFetchParams[]) {
+export const fetchMany = function <T>(params: IFetchParams[]) {
   const urls = params.map(({ url }) => url).join("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, setData] = useState<T>();
@@ -46,7 +46,7 @@ export const FetchMany = function <T>(params: IFetchParams[]) {
   return { data, isLoading, error };
 };
 
-export const FetchSingle = function <T>(
+export const fetchSingle = function <T>(
   url: RequestInfo,
   options?: RequestInit
 ) {
