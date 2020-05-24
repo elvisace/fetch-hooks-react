@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "description": "project desc",
   "main": "build/index.js",
-  "private": true,
+  "private": false,
+  "license": "MIT",
   "peerDependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
