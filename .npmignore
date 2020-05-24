@@ -12,3 +12,4 @@ yarn-error.log
 jest.config.jest
 tsconfig.json
 yarn.lock
+jest.config.js
