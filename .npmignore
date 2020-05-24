@@ -1,0 +1,13 @@
+node_modules
+docs
+coverage
+src
+yarn-error.log
+.DS_Store
+.env
+.vscode
+.eslintrc
+.huskyrc
+jest.config.jest
+tsconfig.json
+yarn.lock

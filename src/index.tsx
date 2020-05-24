@@ -6,6 +6,18 @@ interface IFetchParams {
   key: string;
 }
 
+class FetchError extends Error {
+  public status: number;
+  public statusText: string;
+
+  constructor(message: string, status: number, statusText: string) {
+    super(message);
+    this.name = "FetchError";
+    this.status = status;
+    this.statusText = statusText;
+  }
+}
+
 export const fetchMany = function <T>(params: IFetchParams[]) {
   const urls = params.map(({ url }) => url).join("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -22,10 +34,14 @@ export const fetchMany = function <T>(params: IFetchParams[]) {
         const allData: { [key: string]: any } = {};
         let index = 0;
         for (const res of responses) {
-          if (!res.ok) {
-            throw new Error();
-          }
           const key = params[index]?.key;
+          if (!res.ok) {
+            throw new FetchError(
+              `Error fetching resource for key ${key}.`,
+              res.status,
+              res.statusText
+            );
+          }
           try {
             allData[key] = await res.json();
           } catch (err) {
@@ -59,7 +75,11 @@ export const fetchSingle = function <T>(
       try {
         const res = await fetch(url, options);
         if (!res.ok) {
-          throw new Error();
+          throw new FetchError(
+            "Error fetching resource.",
+            res.status,
+            res.statusText
+          );
         }
         try {
           const jsonData = await res.json();
