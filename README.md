@@ -43,16 +43,18 @@ Params:
 An array of IFetchParams:
 
 ```javascript
-  interface IFetchParams {
-    url: RequestInfo;
-    options?: RequestInit;
-    key: string;
-  }
+interface IFetchParams {
+  url: RequestInfo;
+  options?: RequestInit;
+  key: string;
+  dependsOn?: boolean[];
+}
 ```
 
 - `url` is the resource you want to fetch.
 - `options` are the [fetch options](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options). 
 - `key` is the key you want this to return in the `data` object.
+- `dependsOn` is an optional array of boolean variables on which making the request depends on. If the array exists and at least one value is false, the request will not be made untill all values are true.
 
 
 ### Example
@@ -71,9 +73,10 @@ interface ITodo {
 }
 
 const MyComponent: FC = () => {
+  const doIt = true;
   const { data, isLoading, error } = fetchMany<{ todoList: ITodo[], singleTodo: ITodo>([
     { url: "https://jsonplaceholder.typicode.com/todos", options: { method: "GET" }, key: "todoList" },
-    { url: "https://jsonplaceholder.typicode.com/todos/1", options: { method: "GET" }, key: "singleTodo" }
+    { url: "https://jsonplaceholder.typicode.com/todos/1", options: { method: "GET" }, key: "singleTodo", dependsOn: [doIt] }
   ]); 
 
   if (isLoading) {
@@ -100,6 +103,7 @@ Params:
 
 - A `url` is the resource you want to fetch.
 - [fetch options](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options). 
+- `dependsOn` is an optional array of boolean variables on which making the request depends on. If the array exists and at least one value is false, the request will not be made untill all values are true.
 
 
 ### Example
@@ -118,7 +122,8 @@ interface ITodo {
 }
 
 const MyComponent: FC = () => {
-  const { data, isLoading, error } = fetchMany<ITodo>("https://jsonplaceholder.typicode.com/todos/1", { method: "GET" });
+  const doIt = true;
+  const { data, isLoading, error } = fetchMany<ITodo>("https://jsonplaceholder.typicode.com/todos/1", { method: "GET" }, [doIt]);
 
   if (isLoading) {
     return <div>Loading...</div>;

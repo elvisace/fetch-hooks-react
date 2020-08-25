@@ -4,6 +4,7 @@ interface IFetchParams {
   url: RequestInfo;
   options?: RequestInit;
   key: string;
+  dependsOn?: boolean[];
 }
 
 class FetchError extends Error {
@@ -20,6 +21,10 @@ class FetchError extends Error {
 
 export const fetchMany = function <T>(params: IFetchParams[]) {
   const urls = params.map(({ url }) => url).join("");
+  const blocked = !params
+    .map(({ dependsOn }) => dependsOn || [])
+    .reduce((prev, x) => [...prev, ...x], [])
+    .every((x) => x);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, setData] = useState<T>();
   const [error, setError] = useState<any>();
@@ -56,17 +61,24 @@ export const fetchMany = function <T>(params: IFetchParams[]) {
       }
       setIsLoading(false);
     };
-    fetchData();
+    if (!blocked) {
+      fetchData();
+    }
     // eslint-disable-next-line
-  }, [urls]);
+  }, [urls, blocked]);
   return { data, isLoading, error };
 };
 
 export const fetchSingle = function <T>(
   url: RequestInfo,
-  options?: RequestInit
+  options?: RequestInit,
+  dependsOn?: boolean[]
 ) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const blocked =
+    dependsOn !== undefined &&
+    dependsOn.length > 0 &&
+    !dependsOn.every((x) => x);
   const [data, setData] = useState<T>();
   const [error, setError] = useState<any>();
   useEffect(() => {
@@ -92,8 +104,10 @@ export const fetchSingle = function <T>(
       }
       setIsLoading(false);
     };
-    fetchData();
+    if (!blocked) {
+      fetchData();
+    }
     // eslint-disable-next-line
-  }, [url]);
+  }, [url, blocked]);
   return { data, isLoading, error };
 };
